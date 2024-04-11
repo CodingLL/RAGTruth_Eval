@@ -36,8 +36,11 @@ async def generate_response(args, sample, cnt, client):
                                           stream=False,
                                           do_sample=True if args.temp != None else False,
                                           temperature=args.temp,
+                                          details=True
                                           )
-    output = output.strip()
+    output_details = [{'id': i.id, 'text': i.text, 'logprob': i.logprob, 'special': i.special} for i in output.details.tokens] # output有时是dict
+    output = output.generated_text.strip()
+    # output = output.strip()
     if cnt % args.print_freq == 0:
         print('\ncnt: {}, id: {}, source_id: {}, task_type: {}, model: {}'\
             .format(cnt, sample['id'], sample['source_id'], sample['task_type'], sample['model']))
@@ -46,6 +49,7 @@ async def generate_response(args, sample, cnt, client):
         print('label: \t', sample['labels'])
         
     sample['output'] = output
+    sample['details'] = output_details
     return sample
 
 async def main(args):

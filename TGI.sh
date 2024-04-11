@@ -1,9 +1,9 @@
 sudo docker run -d \
 --name llama2_13b_lora_0217_merge \
---gpus '"device=1"' \
+--gpus '"device=6"' \
 -v $PWD:/data \
 --shm-size 1g \
--p 8321:80 ghcr.io/huggingface/text-generation-inference:1.3.4 \
+-p 8346:80 ghcr.io/huggingface/text-generation-inference:1.3.4 \
 --model-id /data/exp/llama2_13b_lora_0217_merge \
 --dtype bfloat16 \
 --max-total-tokens 4096 \
